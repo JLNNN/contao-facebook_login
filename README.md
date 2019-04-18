@@ -1,4 +1,4 @@
-# Facebook Login extension for Contao Open Source CMS
+# Facebook Login extension for Contao Open Source CMS (with PHP 7.x support)
 
 ![](https://img.shields.io/maintenance/no/2017.svg)
 ![](https://img.shields.io/packagist/v/codefog/contao-facebook_login.svg)
