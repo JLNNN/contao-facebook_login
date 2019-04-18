@@ -2,50 +2,50 @@
 <div class="<?php echo $this->class; ?> block"<?php echo $this->cssID; ?><?php if ($this->style): ?> style="<?php echo $this->style; ?>"<?php endif; ?>>
 
 	<?php if ($this->headline): ?>
-	<<?php echo $this->hl; ?>><?php echo $this->headline; ?></<?php echo $this->hl; ?>>
+		<<?php echo $this->hl; ?>><?php echo $this->headline; ?></<?php echo $this->hl; ?>>
 	<?php endif; ?>
 
 	<?php echo $this->messages; ?>
 
-	<a id="<?php echo $this->id; ?>" href="<?php echo $this->href; ?>" title="<?php echo $this->linkTitle; ?>"><?php echo $this->link; ?></a>
+	<a id="<?php echo $this->id; ?>" href="#" title="<?php echo $this->linkTitle; ?>"><?php echo $this->link; ?></a>
 	<div id="fb-root"></div>
 
 	<script type="text/javascript">
-	/* <![CDATA[ */
-	window.fbAsyncInit = function() {
-		FB.init({
-			appId: '<?php echo $this->appId; ?>',
-			cookie: true,
-			xfbml: true
-		});
-		document.getElementById('<?php echo $this->id; ?>').addEventListener('click', function(e) {
-			e.preventDefault();
-			var url = this.href;
-			FB.getLoginStatus(function(response) {
-				if (response.status === 'connected') {
-					window.location = url;
-				} else {
-					if (navigator.userAgent.match('CriOS')) {
-						window.location = 'https://www.facebook.com/dialog/oauth?client_id=<?php echo $this->appId; ?>&redirect_uri='+encodeURIComponent(url)+'&scope=email&response_type=token';
-					} else {
-						FB.login(function (response) {
-							if (response.status === 'connected') {
-								window.location = url;
-							}
-						}, {scope: 'email'});
-					}
-				}
+		/* <![CDATA[ */
+		window.fbAsyncInit = function() {
+			FB.init({
+				appId: '<?php echo $this->appId; ?>',
+				cookie: true,
+				xfbml: true,
+				version: 'v3.2'
 			});
-		});
-	};
-	(function(d, s, id){
-		var js, fjs = d.getElementsByTagName(s)[0];
-		if (d.getElementById(id)) {return;}
-		js = d.createElement(s); js.id = id;
-		js.src = "//connect.facebook.net/en_US/all.js";
-		fjs.parentNode.insertBefore(js, fjs);
-	}(document, 'script', 'facebook-jssdk'));
-	/* ]]> */
+
+			document.getElementById('<?php echo $this->id; ?>').addEventListener('click', function(e) {
+				e.preventDefault();
+				var url = "<?php echo $this->href; ?>";
+
+				FB.getLoginStatus(function(response) {
+					if (response.status === 'connected') {
+						window.location = url;
+					} else {
+						window.location = encodeURI("https://www.facebook.com/dialog/oauth?client_id=<?php echo $this->appId; ?>&redirect_uri=" + url + "&response_type=token&scope=email&state=fblogin");
+					}
+				});
+			});
+
+			FB.AppEvents.logPageView();
+		};
+		(function(d, s, id) {
+			var js, fjs = d.getElementsByTagName(s)[0];
+			if (d.getElementById(id)) {
+				return;
+			}
+			js = d.createElement(s);
+			js.id = id;
+			js.src = "https://connect.facebook.net/en_US/sdk.js";
+			fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+		/* ]]> */
 	</script>
 
 </div>
