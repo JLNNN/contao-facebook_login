@@ -166,7 +166,7 @@ class ModuleFacebookLogin extends \Module
 				if (is_array($callback))
 				{
 					$this->import($callback[0]);
-					$this->$callback[0]->$callback[1]();
+					$this->{$callback[0]}->{$callback[1]}($this);
 				}
 			}
 		}
@@ -178,7 +178,7 @@ class ModuleFacebookLogin extends \Module
 			'dateAdded' => $time,
 			'firstname' => $arrProfile['first_name'],
 			'lastname' => $arrProfile['last_name'],
-			'gender' => $arrProfile['gender'],
+			'gender' => $arrProfile['gender'] . "",
 			'email' => $arrProfile['email'],
 			'login' => 1,
 			'username' => 'fb_' . $arrProfile['id'],
@@ -216,7 +216,7 @@ class ModuleFacebookLogin extends \Module
 
 					try
 					{
-						$v = $this->$callback[0]->$callback[1]($v, null);
+						$v = $this->{$callback[0]}->{$callback[1]}($v, null);
 					}
 					catch (\Exception $e)
 					{
@@ -294,7 +294,7 @@ class ModuleFacebookLogin extends \Module
 			foreach ($GLOBALS['TL_HOOKS']['createNewUser'] as $callback)
 			{
 				$this->import($callback[0]);
-				$this->$callback[0]->$callback[1]($insertId, $arrData, $this, $arrProfile);
+				$this->{$callback[0]}->{$callback[1]}($insertId, $arrData, $this, $arrProfile);
 			}
 		}
 
